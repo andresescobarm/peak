@@ -1,0 +1,7 @@
+{
+ "imagenes": 337,
+ "imagenes_con_9": 255,
+ "imagenes_9_interpoladas": 13,
+ "imagenes_con_esqueleto": 242,
+ "seg_pose_por_imagen": 2.080750842950422
+}

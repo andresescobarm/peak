@@ -1,0 +1,7 @@
+{
+ "frames": 337,
+ "tracks": 21,
+ "seg_deteccion_por_imagen": 0.8136740711869364,
+ "seg_reid_por_imagen": 8.280338597599412,
+ "seg_tracker_por_imagen": 0.0009828708130546757
+}

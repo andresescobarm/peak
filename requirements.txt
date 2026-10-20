@@ -1,0 +1,12 @@
+# Paso 1 (versiones usadas el 20-oct-2026)
+torch==2.14.1
+torchvision==0.29.1
+rfdetr==1.11.2
+transformers==5.20.2
+torchreid==0.2.5
+gdown==6.4.2
+tensorboard==2.21.0
+opencv-python-headless==5.0.0.93
+numpy==2.5.4
+scipy==1.18.1
+pytest==9.1.1
