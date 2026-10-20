@@ -1,0 +1,91 @@
+{
+ "frames": 20,
+ "size": [
+  960,
+  540
+ ],
+ "cpu_threads": 2,
+ "results": [
+  {
+   "funcion": "Detección jugadores/balón",
+   "herramienta": "RF-DETR 1.11.2",
+   "modelo": "RF-DETR Nano",
+   "estado": "CORRE",
+   "carga_s": 9.17,
+   "seg_por_cuadro": 0.233,
+   "nota": "personas detectadas por cuadro (min-max): 2-2"
+  },
+  {
+   "funcion": "Detección jugadores/balón",
+   "herramienta": "RF-DETR 1.11.2",
+   "modelo": "RF-DETR Small",
+   "estado": "CORRE",
+   "carga_s": 18.29,
+   "seg_por_cuadro": 0.382,
+   "nota": "personas detectadas por cuadro (min-max): 2-2"
+  },
+  {
+   "funcion": "Detección jugadores/balón",
+   "herramienta": "RF-DETR 1.11.2",
+   "modelo": "RF-DETR Medium",
+   "estado": "CORRE",
+   "carga_s": 19.12,
+   "seg_por_cuadro": 0.528,
+   "nota": "personas detectadas por cuadro (min-max): 2-2"
+  },
+  {
+   "funcion": "Seguimiento de todos los jugadores",
+   "herramienta": "trackers 2.6.1",
+   "modelo": "ByteTrack",
+   "estado": "CORRE",
+   "carga_s": 0.0,
+   "seg_por_cuadro": 0.013,
+   "nota": "IDs de seguimiento asignados en 20 cuadros: 2"
+  },
+  {
+   "funcion": "Pose del target (1 jugador)",
+   "herramienta": "rtmlib 0.0.16",
+   "modelo": "RTMPose-s body7",
+   "estado": "CORRE",
+   "carga_s": 4.87,
+   "seg_por_cuadro": 0.013,
+   "nota": "puntos corporales por jugador: 17"
+  },
+  {
+   "funcion": "Pose del target (1 jugador)",
+   "herramienta": "rtmlib 0.0.16",
+   "modelo": "RTMPose-m body7",
+   "estado": "CORRE",
+   "carga_s": 10.59,
+   "seg_por_cuadro": 0.029,
+   "nota": "puntos corporales por jugador: 17"
+  },
+  {
+   "funcion": "Pose del target (1 jugador)",
+   "herramienta": "rtmlib 0.0.16",
+   "modelo": "RTMPose-x body7",
+   "estado": "CORRE",
+   "carga_s": 42.18,
+   "seg_por_cuadro": 0.193,
+   "nota": "puntos corporales por jugador: 17"
+  },
+  {
+   "funcion": "Seguir al target desde un clic",
+   "herramienta": "transformers 5.20.2",
+   "modelo": "SAM 2.1 tiny",
+   "estado": "CORRE",
+   "carga_s": 7.16,
+   "seg_por_cuadro": 5.902,
+   "nota": "cuadros con el target segmentado: 20 de 20"
+  },
+  {
+   "funcion": "Seguir al target desde un clic",
+   "herramienta": "transformers 5.20.2",
+   "modelo": "SAM 2.1 small",
+   "estado": "CORRE",
+   "carga_s": 5.3,
+   "seg_por_cuadro": 6.375,
+   "nota": "cuadros con el target segmentado: 20 de 20"
+  }
+ ]
+}

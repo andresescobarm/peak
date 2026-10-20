@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+# Videos y pesos de modelos: no se suben al repositorio
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.pt
+*.pth
+*.onnx
+*.zip
+data/
+weights/
+outputs/
