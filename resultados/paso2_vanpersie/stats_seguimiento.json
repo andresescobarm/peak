@@ -1,0 +1,7 @@
+{
+ "imagenes": 239,
+ "trayectorias": 24,
+ "seg_deteccion_por_imagen": 0.05385918393723842,
+ "seg_reid_por_imagen": 0.03114326949372377,
+ "gpu": "Tesla T4"
+}

@@ -1,0 +1,21 @@
+{
+ "imagenes": 239,
+ "calibradas_por_pnlcalib": 239,
+ "calibraciones_validas": 224,
+ "camara_mediana_m": [
+  -0.18,
+  78.2,
+  -18.71
+ ],
+ "posiciones_jugador": 2464,
+ "posiciones_dentro_cancha_margen_2m": 2422,
+ "velocidad_imagen_a_imagen_mps": {
+  "n": 2372,
+  "mediana": 5.7910839307236,
+  "p90": 15.423689218440234,
+  "p99": 33.85616971612571,
+  "max": 163.107034884684,
+  "sobre_12_mps": 413
+ },
+ "nueve_imagenes_con_posicion": 147
+}

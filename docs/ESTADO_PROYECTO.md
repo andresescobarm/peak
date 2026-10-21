@@ -1,6 +1,6 @@
 # PEAK — Estado del proyecto
 
-Actualizado: 20-oct-2026. Proyecto propio de Andrés Escobar. No usa material de Hansi/TheNotCoach.
+Actualizado: 21-oct-2026. Proyecto propio de Andrés Escobar. No usa material de Hansi/TheNotCoach.
 Repositorio: github.com/andresescobarm/peak (privado). Copia de los documentos en el proyecto "Futbol y Millones" de claude.ai, carpeta `proyecto9`.
 
 ## Objetivo
@@ -25,7 +25,7 @@ Sistema que analiza video de un futbolista target (primero: 9 / centrodelantero)
 | Calibración de cancha | PnLCalib | USD 0 |
 | Esqueleto | ViTPose++ | USD 0 |
 | Etiquetado | CVAT (instalado en servidor propio) | USD 0 |
-| GPU | Modal (USD 30 de crédito mensual gratis) | USD 0 dentro del crédito |
+| GPU | Modal, plan Starter (USD 30 de crédito mensual; exige medio de pago registrado) | USD 0 dentro del crédito |
 
 Detalle y fuentes: `COMPONENTES_CV_FUTBOL.md`. Costos de operación: `COSTOS_ESTIMADOS.md`.
 
@@ -34,7 +34,7 @@ Detalle y fuentes: `COMPONENTES_CV_FUTBOL.md`. Costos de operación: `COSTOS_EST
 |---|---|---|
 | 0 | Repositorio GitHub conectado | Hecho (20-oct-2026) |
 | 1 | Flujo básico con clip real: detección, seguimiento, clic en el 9, esqueleto, video de salida | Hecho (20-oct-2026). Ver resultados abajo |
-| 2 | Calibración de cancha: mapa visto desde arriba con posiciones en metros | Pendiente |
+| 2 | Calibración de cancha: mapa visto desde arriba con posiciones en metros | Hecho (21-oct-2026) con clip HD. Ver resultados abajo |
 | 3 | Etiquetado en CVAT (jugadores, balón, puntos de cancha) | Pendiente |
 | 4 | Entrenamiento con fútbol y comparación RF-DETR vs YOLO (GPU) | Pendiente |
 | 5 | Seguimiento completo: OSNet, GTA-Link, SAM 3.1 | Pendiente |
@@ -42,7 +42,6 @@ Detalle y fuentes: `COMPONENTES_CV_FUTBOL.md`. Costos de operación: `COSTOS_EST
 
 ## Lo que Andrés debe entregar
 - Paso 3: etiquetado.
-- Paso 4: cuenta de Modal.
 
 ## Resultado del paso 1 (20-oct-2026)
 Clip: compilación de TV (TVN), 640×352, 29,97 imágenes/s. Jugada usada: imágenes 530 a 866 (337 imágenes, sin cortes de cámara).
@@ -54,6 +53,33 @@ Clip: compilación de TV (TVN), 640×352, 29,97 imágenes/s. Jugada usada: imág
 - Tiempos en CPU por imagen: detección 0,81 s; apariencia 8,28 s (ya reducido en el código: solo detecciones de confianza alta); esqueleto 2,08 s.
 - Conclusión: el flujo funciona de punta a punta con fútbol real. Para medir movimientos finos con confianza se necesitan videos de mayor resolución o tomas más cercanas.
 - Código: `src/peak/tracking/deep_eiou.py`, `scripts/paso1_seguimiento.py`, `scripts/paso1_esqueleto.py`. Resultados: `resultados/paso1/`.
+
+## Resultado del paso 2 (21-oct-2026)
+Calibración con PnLCalib (commit 8c87391, pesos SV, refinamiento PnL) en Modal, GPU T4.
+
+### Clip de 1997 (TVN, 640×352): no sirve para calibrar
+- Imágenes 530 a 866. PnLCalib calibró 26 de 337, y esas 26 están mal (el arco queda proyectado sobre los letreros).
+- La integración está verificada: con la imagen de ejemplo oficial de PnLCalib la proyección calza exacta (`resultados/paso2_clip1997/integracion_ejemplo_oficial.jpg`).
+- Probado en CPU, sin costo: pesos SV, SV_FT_WC14 y SV_FT_TSWC, con y sin refinamiento, y umbrales bajos (0,2 / 0,5). Todas las variantes fallan o calibran mal.
+- Causa: en la imagen 290 el modelo detecta 4 puntos de cancha (umbral por defecto); en la imagen de ejemplo moderna, 20.
+- Script del diagnóstico: `scripts/diagnostico/paso2_pnlcalib_cpu.py`.
+
+### Clip Van Persie (España-Holanda, Mundial 2014, 1280×720)
+- Jugada en vivo del gol: imágenes 0 a 238, cámara principal, sin cortes (lo demás del clip son repeticiones).
+- Seguimiento igual al paso 1 (RF-DETR Large + Deep-EIoU propio + OSNet), ahora en GPU: 24 identidades.
+- PnLCalib calibró 239 de 239. Se descartan 15 porque la posición estimada de la cámara se aleja más de 5 m de la mediana (la cámara de TV es fija): quedan 224 válidas.
+- Posiciones dentro de la cancha (margen 2 m): 2.422 de 2.464. Las 42 restantes son todas del juez de línea (identidad 18).
+- Ruido de posición frente a su promedio móvil de 0,5 s: mediana 0,18 m; percentil 90: 0,46 m.
+- Velocidad suavizada a 0,5 s: mediana 3,7 m/s; percentil 90: 7,8 m/s; 54 de 893 mediciones sobre 10 m/s (cambios de identidad; lo corrige el paso 5).
+- El 9 (Van Persie) es la identidad 24 desde la imagen 83 (verificado en la imagen 190, cabezazo). Antes de la 83 no está detectado de forma continua.
+- Esqueleto: no se corrió aún sobre este clip.
+- Tiempos en T4 por imagen: detección 0,054 s; apariencia 0,031 s; calibración 0,474 s.
+- Código: `modal_apps/paso2_completo.py`, `scripts/paso2_mapa.py`. Resultados: `resultados/paso2_vanpersie/` (videos no se suben al repositorio).
+
+### Consumo en Modal (21-oct-2026)
+- Corrida clip 1997 (perdida por bloqueo de red, sin resultado), corrida clip 1997 completa (148,5 s medidos en GPU) y corrida Van Persie (133,7 s medidos en GPU).
+- Precio usado: T4 USD 0,000164/s + 2 núcleos × USD 0,0000131/s + 16 GiB × USD 0,00000222/s = USD 0,00022572/s (modal.com/pricing, 21-oct-2026).
+- No incluye arranque de contenedores ni construcción de imágenes. Total exacto: modal.com > Usage.
 
 ## Historial: prueba de velocidad en CPU (20-oct-2026)
 Herramientas del primer borrador (reemplazadas por el stack definitivo). Entorno: 2 núcleos de CPU, 7,8 GB RAM, sin GPU. Video de ejemplo del repositorio oficial de SAM 2 (no es fútbol).
@@ -68,4 +94,11 @@ Herramientas del primer borrador (reemplazadas por el stack definitivo). Entorno
 Script y resultados: `benchmarks/fase1_cpu/`.
 
 ## Entorno
-Dominios permitidos para descargar modelos (claude.ai > Settings > Capabilities, agregados el 20-oct-2026): dl.fbaipublicfiles.com, huggingface.co, *.hf.co, download.openmmlab.com, storage.googleapis.com.
+Dominios permitidos (claude.ai > Settings > Capabilities):
+- Modelos (20-oct-2026): dl.fbaipublicfiles.com, huggingface.co, *.hf.co, download.openmmlab.com, storage.googleapis.com.
+- Modal (21-oct-2026): api.modal.com, api.modal2.com, *.modal.com, e29e5794c3a8abd52b1549c7703408b1.r2.cloudflarestorage.com, modal-blobs.s3-accelerate.amazonaws.com, duot2hadvvkdh.cloudfront.net.
+
+Modal desde este entorno:
+- Instalar `modal[api-proxy-support]` (sin el paquete python-socks el cliente no atraviesa el proxy de red).
+- Autenticación: `modal token new` entrega un enlace que Andrés aprueba en su navegador. El token vive solo en la sesión de chat donde se creó; en un chat nuevo hay que repetirlo.
+- Volumen `peak-resultados` en Modal: copia de respaldo de cada corrida.
