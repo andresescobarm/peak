@@ -1,0 +1,32 @@
+{
+ "imagenes_con_9": 156,
+ "imagenes_9_interpoladas": 0,
+ "imagenes_con_esqueleto": 156,
+ "pct_puntos_sobre_0_3": 86.08597285067874,
+ "pct_por_punto": {
+  "nariz": 87.17948717948718,
+  "ojo_izq": 87.82051282051282,
+  "ojo_der": 88.46153846153845,
+  "oreja_izq": 86.53846153846155,
+  "oreja_der": 84.61538461538461,
+  "hombro_izq": 92.3076923076923,
+  "hombro_der": 87.82051282051282,
+  "codo_izq": 85.25641025641025,
+  "codo_der": 71.15384615384616,
+  "mu\u00f1eca_izq": 82.05128205128204,
+  "mu\u00f1eca_der": 68.58974358974359,
+  "cadera_izq": 87.17948717948718,
+  "cadera_der": 85.25641025641025,
+  "rodilla_izq": 90.38461538461539,
+  "rodilla_der": 91.02564102564102,
+  "tobillo_izq": 94.87179487179486,
+  "tobillo_der": 92.94871794871796
+ },
+ "altura_caja_9_px": {
+  "min": 20.74493408203125,
+  "mediana": 47.03749084472656,
+  "max": 104.532958984375
+ },
+ "seg_pose_por_imagen_gpu": 0.12478116074999991,
+ "gpu": "Tesla T4"
+}

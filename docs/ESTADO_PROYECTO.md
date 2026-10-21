@@ -72,12 +72,12 @@ Calibración con PnLCalib (commit 8c87391, pesos SV, refinamiento PnL) en Modal,
 - Ruido de posición frente a su promedio móvil de 0,5 s: mediana 0,18 m; percentil 90: 0,46 m.
 - Velocidad suavizada a 0,5 s: mediana 3,7 m/s; percentil 90: 7,8 m/s; 54 de 893 mediciones sobre 10 m/s (cambios de identidad; lo corrige el paso 5).
 - El 9 (Van Persie) es la identidad 24 desde la imagen 83 (verificado en la imagen 190, cabezazo). Antes de la 83 no está detectado de forma continua.
-- Esqueleto: no se corrió aún sobre este clip.
+- Esqueleto ViTPose++ Huge del 9 en GPU (`modal_apps/paso2_esqueleto.py`): 156 imágenes (83 a 238), ninguna interpolada. El 86,1 % de los puntos del cuerpo supera confianza 0,3 (paso 1, clip de 1997: 50,7 %). Altura del 9 en la imagen: mediana 47 px (mín. 21, máx. 105). Puntos menos confiables: muñeca derecha 68,6 %, codo derecho 71,2 %. La confianza es la que reporta el modelo, no una precisión medida contra etiquetas (eso es el paso 6). Revisión visual en 8 imágenes, incluido el cabezazo: el esqueleto sigue el cuerpo. 0,125 s por imagen en T4.
 - Tiempos en T4 por imagen: detección 0,054 s; apariencia 0,031 s; calibración 0,474 s.
 - Código: `modal_apps/paso2_completo.py`, `scripts/paso2_mapa.py`. Resultados: `resultados/paso2_vanpersie/` (videos no se suben al repositorio).
 
 ### Consumo en Modal (21-oct-2026)
-- Corrida clip 1997 (perdida por bloqueo de red, sin resultado), corrida clip 1997 completa (148,5 s medidos en GPU) y corrida Van Persie (133,7 s medidos en GPU).
+- Corrida clip 1997 (perdida por bloqueo de red, sin resultado), corrida clip 1997 completa (148,5 s medidos en GPU) corrida Van Persie (133,7 s medidos en GPU) y esqueleto Van Persie (19,5 s medidos en GPU; una corrida previa falló al inicio por una dependencia faltante).
 - Precio usado: T4 USD 0,000164/s + 2 núcleos × USD 0,0000131/s + 16 GiB × USD 0,00000222/s = USD 0,00022572/s (modal.com/pricing, 21-oct-2026).
 - No incluye arranque de contenedores ni construcción de imágenes. Total exacto: modal.com > Usage.
 
